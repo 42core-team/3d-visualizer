@@ -17,10 +17,6 @@
         engine = new Engine(canvas, true);
         scene = new Scene(engine);
 
-        engine.runRenderLoop(() => {
-            scene.render();
-        });
-
         const resizeObserver = new ResizeObserver(() => {
             engine.resize();
         });
