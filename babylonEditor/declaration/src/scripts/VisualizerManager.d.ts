@@ -1,11 +1,13 @@
 import { Node } from "@babylonjs/core/node";
+import Resource from "./Resource";
+import Team from "./Team";
 export default class VisualizerManager extends Node {
-    private _units;
-    private _cores;
-    private _resources;
+    teams: Map<number, Team>;
+    resources: Map<number, Resource>;
     private _replay;
     private _currFrame;
     private _totalFrames;
+    private _paused;
     protected constructor(replay: JSON);
     goToFrame(frame: number): void;
     nextFrame(): void;

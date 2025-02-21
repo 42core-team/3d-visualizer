@@ -1,44 +1,40 @@
-import { TransformNode, Vector3 } from "@babylonjs/core";
+import { Node } from "@babylonjs/core/node";
+import Unit from "./Unit";
+import Core from "./Core";
 
-export default class Resource extends TransformNode {
+export default class Team extends Node {
 
-    private _currHealth: number = -1;
-    private _maxHealth: number = -1;
+    public units: Map<number, Unit> = new Map<number, Unit>();
+    public core: Core;
+    public balance: number;
+    public teamName: string;
 
-    public constructor(currHealth: number, pos: Vector3) {
-        super("Resource");
+    public constructor(balance: number, teamName: string) {
+        super("Team");
 
-        this.position = pos;
-        this._currHealth = currHealth;
-
-    }
-
-    public setHealth(amount: number): void {
-        this._currHealth = amount;
+        this.balance = balance;
+        this.teamName = teamName;
     }
 
     public onInitialize(): void {
         // ...
     }
 
-
     public onInitialized(): void {
         // ...
     }
+
 
     public onStart(): void {
         // ...
     }
 
     public onUpdate(): void {
-
-        if (this._currHealth > 0) return;
-
-        this.dispose();
+        // ...
     }
 
     public onStop(): void {
-        this.dispose();
+        // ...
     }
 
     /**

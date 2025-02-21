@@ -3,23 +3,17 @@ import { TransformNode, Vector3 } from "@babylonjs/core";
 export default class Core extends TransformNode {
 
     private _currHealth: number = -1;
-    private _maxHealth: number = -1;
 
-    protected constructor(currHealth: number, maxHealth: number, pos: Vector3) {
+    public constructor(currHealth: number, pos: Vector3) {
         super("Core");
 
         this.position = pos;
         this._currHealth = currHealth;
-        this._maxHealth = maxHealth;
 
     }
 
     public setHealth(amount: number): void {
         this._currHealth = amount;
-        if (this._currHealth > this._maxHealth)
-            this._currHealth = this._maxHealth;
-        else if (this._currHealth < 0)
-            this._currHealth = 0;
     }
 
     public onInitialize(): void {

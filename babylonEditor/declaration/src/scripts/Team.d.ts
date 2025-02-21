@@ -1,8 +1,12 @@
-import { TransformNode, Vector3 } from "@babylonjs/core";
-export default class Core extends TransformNode {
-    private _currHealth;
-    constructor(currHealth: number, pos: Vector3);
-    setHealth(amount: number): void;
+import { Node } from "@babylonjs/core/node";
+import Unit from "./Unit";
+import Core from "./Core";
+export default class Team extends Node {
+    units: Map<number, Unit>;
+    core: Core;
+    balance: number;
+    teamName: string;
+    constructor(balance: number, teamName: string);
     onInitialize(): void;
     onInitialized(): void;
     onStart(): void;

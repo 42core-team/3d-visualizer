@@ -2,7 +2,7 @@ import { TransformNode, Vector3 } from "@babylonjs/core";
 export default class Resource extends TransformNode {
     private _currHealth;
     private _maxHealth;
-    protected constructor(currHealth: number, maxHealth: number, pos: Vector3);
+    constructor(currHealth: number, pos: Vector3);
     setHealth(amount: number): void;
     onInitialize(): void;
     onInitialized(): void;
