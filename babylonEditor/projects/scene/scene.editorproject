@@ -6,24 +6,19 @@
 	"materials": [
 		{
 			"isMultiMaterial": false,
-			"bindedMeshes": [
-				"eee4645a-645f-4faf-b10b-868d396f01f0"
-			],
+			"bindedMeshes": [],
 			"json": "materials/ground.material"
 		},
 		{
 			"isMultiMaterial": false,
 			"bindedMeshes": [
-				"6a927ea7-51d9-4248-9b80-4d34b53b386e",
 				"13e46901-8d88-440a-83df-a3a35dc2feab"
 			],
 			"json": "materials/sky.material"
 		},
 		{
 			"isMultiMaterial": false,
-			"bindedMeshes": [
-				"e22f3d3a-65b2-4993-8c52-cb05d2af8278"
-			],
+			"bindedMeshes": [],
 			"json": "materials/cube.material"
 		},
 		{
@@ -293,7 +288,6 @@
 			}
 		},
 		"environmentIntensity": 1,
-		"shadowGenerators": [],
 		"sounds": []
 	},
 	"assets": {
@@ -318,8 +312,8 @@
 			"checkCollisions": false,
 			"applyGravity": false,
 			"rotation": [
-				0.28177743171173164,
-				-0.8420319529637954,
+				0.29477743171173165,
+				-0.6798072215184828,
 				0
 			],
 			"speed": 2,
