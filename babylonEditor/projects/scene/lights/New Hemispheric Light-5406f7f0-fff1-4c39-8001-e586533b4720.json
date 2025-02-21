@@ -1,0 +1,47 @@
+{
+	"tags": null,
+	"groundColor": [
+		0,
+		0,
+		0
+	],
+	"direction": [
+		0,
+		1,
+		0
+	],
+	"diffuse": [
+		1,
+		1,
+		1
+	],
+	"specular": [
+		1,
+		1,
+		1
+	],
+	"falloffType": 0,
+	"intensity": 1,
+	"range": 1.7976931348623157e+308,
+	"intensityMode": 0,
+	"radius": 0.00001,
+	"_renderPriority": 0,
+	"shadowEnabled": true,
+	"excludeWithLayerMask": 0,
+	"includeOnlyWithLayerMask": 0,
+	"lightmapMode": 0,
+	"name": "New Hemispheric Light",
+	"id": "5406f7f0-fff1-4c39-8001-e586533b4720",
+	"state": "",
+	"metadata": {
+		"script": {
+			"name": "None"
+		}
+	},
+	"uniqueId": 403,
+	"type": 3,
+	"parentId": "ad614fb1-b5f0-4c22-b0d7-cf0bfc6897bd",
+	"animations": [],
+	"ranges": [],
+	"isEnabled": true
+}
