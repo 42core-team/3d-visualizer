@@ -7,6 +7,11 @@
         Vector3,
         HemisphericLight,
         MeshBuilder,
+        Color3,
+        Color4,
+        StandardMaterial,
+        Texture,
+        CubeTexture,
     } from "@babylonjs/core";
 
     let canvas: HTMLCanvasElement;
@@ -38,7 +43,10 @@
         );
         hemisphericLight.intensity = 0.5;
 
-        MeshBuilder.CreateBox("box", { size: 2 }, scene);
+        const box = MeshBuilder.CreateBox("box", { size: 2 }, scene);
+        box.position = new Vector3(0, 1, 0);
+        box.rotation = new Vector3(Math.PI / 2, 0, 0);
+        box.material = new StandardMaterial("boxMaterial", scene);
 
         return () => {
             resizeObserver.disconnect();
