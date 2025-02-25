@@ -7,11 +7,9 @@
         Vector3,
         HemisphericLight,
         MeshBuilder,
-        Color3,
-        Color4,
         StandardMaterial,
         Texture,
-        CubeTexture,
+        ParticleSystem,
     } from "@babylonjs/core";
 
     let canvas: HTMLCanvasElement;
@@ -36,17 +34,29 @@
         camera.setTarget(Vector3.Zero());
         camera.attachControl(canvas, true);
 
-        const hemisphericLight: HemisphericLight = new HemisphericLight(
-            "hemisphericLight",
-            new Vector3(0, 1, 0),
-            scene,
-        );
-        hemisphericLight.intensity = 0.5;
+        // Add a hemispheric light to the scene
+        const light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
+        light.intensity = 0.7;
 
-        const box = MeshBuilder.CreateBox("box", { size: 2 }, scene);
-        box.position = new Vector3(0, 1, 0);
-        box.rotation = new Vector3(Math.PI / 2, 0, 0);
-        box.material = new StandardMaterial("boxMaterial", scene);
+        const playFieldHeight = 1;
+        const playingField = MeshBuilder.CreateBox("playingField", { width: 100, height: playFieldHeight, depth: 100 }, scene);
+        const playingFieldMaterial = new StandardMaterial("playingFieldMaterial", scene);
+        const groundTexture = new Texture("/images/ground.png", scene);
+        groundTexture.uScale = 100;
+        groundTexture.vScale = 100;
+        playingFieldMaterial.diffuseTexture = groundTexture;
+        playingFieldMaterial.alpha = 1;
+        playingField.material = playingFieldMaterial;
+        playingField.position = new Vector3(0, -playFieldHeight / 2, 0);
+
+        const particleSystem = new ParticleSystem("particles", 100, scene);
+        particleSystem.particleTexture = new Texture("/images/core-logo.png", scene);
+        particleSystem.emitter = new Vector3(0, 3, 0);
+
+
+        engine.runRenderLoop(() => {
+            scene.render();
+        });
 
         return () => {
             resizeObserver.disconnect();
@@ -59,7 +69,8 @@
 
 <style>
     canvas {
-        width: 100%;
-        height: 100%;
+        width: 95vw;
+        height: 90vh;
+        border: 1px solid black;
     }
 </style>
