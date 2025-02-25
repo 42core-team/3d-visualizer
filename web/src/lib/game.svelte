@@ -34,7 +34,6 @@
         camera.setTarget(Vector3.Zero());
         camera.attachControl(canvas, true);
 
-        // Add a hemispheric light to the scene
         const light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
         light.intensity = 0.7;
 

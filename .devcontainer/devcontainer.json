@@ -1,19 +1,11 @@
 {
-	"name": "Visualizer",
-	"dockerComposeFile": "docker-compose.yml",
-	"service": "app",
+	"name": "3D Visualizer",
+	"image": "mcr.microsoft.com/devcontainers/javascript-node",
 	"workspaceFolder": "/workspace",
 	"customizations": {
-		"settings": {
-			"go.gopath": "/go",
-			"go.toolsGopath": "/go",
-			"go.useLanguageServer": true
-		},
 		"vscode": {
 			"extensions": [
-				"golang.go",
-				"ms-azuretools.vscode-docker",
-				"svelte.svelte-vscode"
+
 			]
 		}
 	},
