@@ -16,9 +16,9 @@
     let canvas: HTMLCanvasElement;
     let engine: Engine;
     let scene: Scene;
-    let replay: JSON;
+    let replay: any;
     let currentFrame: number = 0;
-    let fps: number = 60;
+    const fps: number = 30;
 
     async function loadReplay() {
         console.log("Loading replay...");
@@ -34,9 +34,9 @@
         }
     }
 
-    function loadObjects(objects: any)
-    {
+    function loadObjects(objects: any) {
         if (!replay) return;
+        // Implement object loading logic here
     }
 
     onMount(() => {
@@ -104,28 +104,18 @@
 
         particleSystem.start();
 
-
         let lastFrameTime = 0;
         const frameDuration = 1000 / fps;
-        function renderLoop(timestamp: number) {
-            if (timestamp - lastFrameTime >= frameDuration) {
-                scene.render();
-                lastFrameTime = timestamp;
 
-                loadObjects(replay["ticks"][currentFrame as  string]);
-                currentFrame++;
-            }
-            requestAnimationFrame(renderLoop);
-        }
-
-        requestAnimationFrame(renderLoop);
+        engine.runRenderLoop(() => {
+            scene.render();
+        });
 
         return () => {
             resizeObserver.disconnect();
             engine.dispose();
         };
     });
-
 </script>
 
 <canvas bind:this={canvas}></canvas>
