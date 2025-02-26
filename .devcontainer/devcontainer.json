@@ -5,7 +5,11 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-
+				"svelte.svelte-vscode",
+				"dbaeumer.vscode-eslint",
+				"esbenp.prettier-vscode",
+				"ms-vscode.vscode-typescript-tslint-plugin",
+				"copilot.copilot"
 			]
 		}
 	},
