@@ -29,6 +29,7 @@
         x: number;
         y: number;
         mesh: Mesh;
+        type_id: number;
     }
 
     interface ReplayTick {
@@ -96,7 +97,14 @@
             initialTick();
             for (let i = 1; i <= frame; i++) {
                 const tick: ReplayTick = replay.ticks[i];
-                if (!tick) break;
+                if (!tick) continue;
+
+                tick.actions.forEach((action) => {
+                    if (action.type === "move")
+                        moveObject(action.dir, action.id, true);
+                    if (action.type === "create")
+                        despawnObject(action.obj);
+                });
 
                 tick.objects.forEach((obj) => {
                     const existingObj = gameObjects.find((o) => o.id === obj.id);
@@ -107,10 +115,6 @@
                     }
                 });
 
-                tick.actions.forEach((action) => {
-                    if (action.type === "move")
-                        moveObject(action.dir, action.id, true);
-                });
             }
         } else { // advance
             console.log("Advancing to frame: " + frame);
@@ -118,19 +122,22 @@
                 const tick: ReplayTick = replay.ticks[i];
                 if (!tick) break;
 
-                tick.objects.forEach((obj) => {
-                    const existingObj = gameObjects.find((o) => o.id === obj.id);
-                    if (existingObj) {
-                        existingObj.mesh.position = new Vector3(obj.x, 1, obj.y);
-                    } else {
-                        spawnObject(obj);
-                    }
-                });
-
                 tick.actions.forEach((action) => {
                     if (action.type === "move")
                         moveObject(action.dir, action.id);
+                    if (action.type === "create")
+                    {
+                        const newObj = tick.objects.find((o) => o.type_id === action.type_id);
+                        if (newObj)
+                            spawnObject(newObj);
+                        else console.error("Failed to find object to create: " + action.type_id);
+                    }
                 });
+
+                tick.objects.forEach((obj) => {
+                    return;
+                });
+
             }
         }
 
@@ -151,9 +158,7 @@
 
     function despawnObject(obj: GameObject) {
         const mesh = gameObjects.find((o) => o.id === obj.id)?.mesh;
-        if (!mesh) return;
-
-        mesh.dispose();
+        if (mesh) mesh.dispose();
         gameObjects = gameObjects.filter((o) => o.id !== obj.id);
     }
 
