@@ -1,7 +1,10 @@
 {
 	"name": "3D Visualizer",
-	"image": "mcr.microsoft.com/devcontainers/javascript-node",
-	"workspaceFolder": "/workspace",
+	"image": "node:22",
+	"mounts": [
+		"source=${localEnv:HOME}/.gitconfig,target=/root/.gitconfig,type=bind,consistency=cached",
+		"source=${localEnv:HOME}/.ssh,target=/root/.ssh,type=bind,consistency=cached"
+	],
 	"customizations": {
 		"vscode": {
 			"extensions": [
@@ -12,9 +15,5 @@
 				"copilot.copilot"
 			]
 		}
-	},
-	"mounts": [
-		"source=${localEnv:HOME}/.ssh,target=/root/.ssh,type=bind,consistency=cached",
-		"source=${localEnv:HOME}/.gitconfig,target=/root/.gitconfig,type=bind,consistency=cached"
-	]
+	}
 }
