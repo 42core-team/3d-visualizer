@@ -1,22 +1,17 @@
-# sv
+# New Core Game Visualizer written in SvelteKit + ThreeJS
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+We are using Threlte to implement the new Core Game Visualizer.
 
-## Creating a project
+- [SvelteKit](https://kit.svelte.dev/)
+- [Threlte](https://threlte.xyz/)
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Installing Dependencies
 
 ```bash
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
+npm install
 ```
 
 ## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
 ```bash
 npm run dev
