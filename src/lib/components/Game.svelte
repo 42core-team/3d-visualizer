@@ -17,12 +17,25 @@
 
 	// Generate positions for a 25x25 grid
 	const gridSize = 25;
-	const gridPositions: [number, number, number][] = [];
+	type BlockData = {
+		position: [number, number, number];
+		isDark: boolean;
+	};
+	const gridBlocks: BlockData[] = [];
 
 	for (let x = 0; x < gridSize; x++) {
 		for (let z = 0; z < gridSize; z++) {
 			// Center the grid by offsetting by half the grid size
-			gridPositions.push([x - Math.floor(gridSize / 2), 0, z - Math.floor(gridSize / 2)]);
+			const xPos = x - Math.floor(gridSize / 2);
+			const zPos = z - Math.floor(gridSize / 2);
+
+			// Calculate checkerboard pattern
+			const isDark = (x + z) % 2 === 0;
+
+			gridBlocks.push({
+				position: [xPos, 0, zPos],
+				isDark
+			});
 		}
 	}
 </script>
@@ -48,7 +61,7 @@
 <T.DirectionalLight position={[0, 10, 10]} castShadow />
 
 <T.Mesh>
-	{#each gridPositions as position}
-		<GrassBlock {position} scale={scale.current} />
+	{#each gridBlocks as block}
+		<GrassBlock position={block.position} scale={scale.current} isDark={block.isDark} />
 	{/each}
 </T.Mesh>
