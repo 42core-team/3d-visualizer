@@ -4,9 +4,16 @@
 	import { OrbitControls } from '@threlte/extras';
 	import { Spring } from 'svelte/motion';
 	import GrassBlock from './blocks/GrassBlock.svelte';
+	import Tree from './sprites/Tree.svelte';
 	import { Sky } from '@threlte/extras';
+	import Settings from './Settings.svelte';
 
 	interactivity();
+
+	let billboarding = $state(false);
+	let fps = $state(30);
+
+	let { replayUrl: string } = $props();
 
 	const scale = new Spring(1);
 
@@ -58,6 +65,8 @@
 	/>
 </T.PerspectiveCamera>
 
+<Settings bind:billboarding bind:fps />
+
 <T.DirectionalLight position={[0, 10, 10]} castShadow />
 
 <T.Mesh>
@@ -65,3 +74,5 @@
 		<GrassBlock position={block.position} scale={scale.current} isDark={block.isDark} />
 	{/each}
 </T.Mesh>
+
+<Tree position={[0, 2, 0]} treeType="green" variant={0} scale={[3, 3]} {billboarding} />

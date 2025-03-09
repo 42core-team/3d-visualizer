@@ -1,18 +1,19 @@
 <script>
 	import { Canvas } from '@threlte/core';
-	import { Studio } from '@threlte/studio';
 
 	import Game from '$lib/components/Game.svelte';
+
+	const replayUrl = '/replays/test.json';
 </script>
 
 <Canvas>
 	{#if import.meta.env.MODE === 'development'}
 		{#await import('@threlte/studio') then { Studio }}
 			<Studio>
-				<Game />
+				<Game {replayUrl} />
 			</Studio>
 		{/await}
 	{:else}
-		<Game />
+		<Game {replayUrl} />
 	{/if}
 </Canvas>

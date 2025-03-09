@@ -18,7 +18,7 @@
 </script>
 
 {#await texture then map}
-	<T.Mesh {position} {scale}>
+	<T.Mesh {position} {scale} receiveShadow>
 		<T.BoxGeometry width={1} height={1} depth={1} />
 		<T.MeshBasicMaterial {map} {color} />
 	</T.Mesh>
