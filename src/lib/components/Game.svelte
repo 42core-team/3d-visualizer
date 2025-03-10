@@ -8,14 +8,29 @@
 	import { Sky } from '@threlte/extras';
 	import Settings from './Settings.svelte';
 	import Unit from './sprites/Unit.svelte';
-	// import Unit from './sprites/Unit.svelte';
+	import { getStateAt, loadReplay } from '$lib/replayManager';
+	import { get } from 'svelte/store';
 
 	interactivity();
 
 	let billboarding = $state(false);
 	let fps = $state(30);
 
-	let { replayUrl: string } = $props();
+	let props = $props();
+	let currFrame: any;
+	let loadedReplay: boolean = false;
+
+	console.log('Replay url:', props.replayUrl);
+
+	loadReplay(props.replayUrl)
+		.then((replay) => {
+			console.log('replay', replay);
+			loadedReplay = true;
+		})
+		.catch(() => {
+			console.error('Failed to load replay');
+			loadedReplay = false;
+		});
 
 	const scale = new Spring(1);
 
@@ -47,6 +62,15 @@
 			});
 		}
 	}
+
+	function showFrame(frame: number) {
+		console.log('showFrame', frame);
+		const tFrame = getStateAt(frame);
+		console.log(tFrame);
+		currFrame = frame;
+	}
+
+	showFrame(0);
 </script>
 
 <Sky elevation={0.5} />
@@ -71,7 +95,7 @@
 
 <T.DirectionalLight position={[0, 10, 10]} castShadow />
 
-<T.Mesh position={[ 0, 0, 0 ]}>
+<T.Mesh position={[0, 0, 0]}>
 	{#each gridBlocks as block}
 		<GrassBlock position={block.position} scale={scale.current} isDark={block.isDark} />
 	{/each}
@@ -83,4 +107,4 @@
 <Tree position={[3, 2, 4]} treeType="green" variant={0} scale={[3, 3]} {billboarding} />
 <Tree position={[4, 2, 3]} treeType="green" variant={0} scale={[3, 3]} {billboarding} />
 <Tree position={[5, 2, 2]} treeType="green" variant={0} scale={[3, 3]} {billboarding} />
-<Unit position={[6, 2, 1]} scale={[3, 3]} {billboarding} />
+<Unit position={[6, 2, 1]} type_id={0} team_id={0} scale={[3, 3]} {billboarding} />

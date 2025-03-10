@@ -21,13 +21,13 @@
 		scale = [3, 3],
 		billboarding = true,
 		team_id,
-		unit_id
+		type_id
 	}: {
 		position: Vector3Tuple;
 		scale: Vector2Tuple;
 		billboarding: boolean;
 		team_id: number;
-		unit_id: number;
+		type_id: number;
 	} = $props();
 </script>
 
