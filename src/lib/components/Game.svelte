@@ -7,6 +7,8 @@
 	import Tree from './sprites/Tree.svelte';
 	import { Sky } from '@threlte/extras';
 	import Settings from './Settings.svelte';
+	import Unit from './sprites/Unit.svelte';
+	// import Unit from './sprites/Unit.svelte';
 
 	interactivity();
 
@@ -69,10 +71,16 @@
 
 <T.DirectionalLight position={[0, 10, 10]} castShadow />
 
-<T.Mesh>
+<T.Mesh position={[ 0, 0, 0 ]}>
 	{#each gridBlocks as block}
 		<GrassBlock position={block.position} scale={scale.current} isDark={block.isDark} />
 	{/each}
 </T.Mesh>
 
-<Tree position={[0, 2, 0]} treeType="green" variant={0} scale={[3, 3]} {billboarding} />
+<Tree position={[0, 2, 7]} treeType="green" variant={0} scale={[3, 3]} {billboarding} />
+<Tree position={[1, 2, 6]} treeType="green" variant={0} scale={[3, 3]} {billboarding} />
+<Tree position={[2, 2, 5]} treeType="green" variant={0} scale={[3, 3]} {billboarding} />
+<Tree position={[3, 2, 4]} treeType="green" variant={0} scale={[3, 3]} {billboarding} />
+<Tree position={[4, 2, 3]} treeType="green" variant={0} scale={[3, 3]} {billboarding} />
+<Tree position={[5, 2, 2]} treeType="green" variant={0} scale={[3, 3]} {billboarding} />
+<Unit position={[6, 2, 1]} scale={[3, 3]} {billboarding} />
