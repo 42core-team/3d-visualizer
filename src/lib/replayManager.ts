@@ -1,14 +1,32 @@
-interface ReplayTick {
-	objects: any[];
-	actions: any[];
+export interface TickObject
+{
+	id: number,
+	type?: number,
+	x?: number,
+	y?: number,
+	hp?: number,
+	teamId?: number,
+	balance?: number,
 }
 
-interface ReplayData {
+export interface TickAction {
+	type: string,
+	type_id?: number,
+	unit_id?: number,
+	dir?: number,
+}
+
+export interface ReplayTick {
+	objects: TickObject[];
+	actions: TickAction[];
+}
+
+export interface ReplayData {
 	ticks: { [tick: string]: ReplayTick };
 	full_tick_amount: number;
 }
 
-type State = { [id: string]: any };
+type State = { [id: string]: unknown };
 
 function deepClone<T>(obj: T): T {
 	return JSON.parse(JSON.stringify(obj));
@@ -19,7 +37,7 @@ class ReplayLoader {
 	private cache: Map<number, State>;
 	private cacheInterval: number;
 
-	constructor(cacheInterval: number = 25) {
+	constructor(cacheInterval = 25) {
 		this.cacheInterval = cacheInterval;
 		this.cache = new Map<number, State>();
 	}
@@ -28,10 +46,10 @@ class ReplayLoader {
 		await fetch(filePath)
 			.then(response => response.json())
 			.then((json) => {
-				this.replayData = json;
-				let fullState: State = {};
+				this.replayData = json as ReplayData;
+				const fullState: State = {};
 				const tick0 = this.replayData.ticks["0"];
-				if (tick0 && tick0.objects) {
+				if (tick0?.objects) {
 					for (const obj of tick0.objects) {
 						fullState[obj.id] = deepClone(obj);
 					}
@@ -41,7 +59,7 @@ class ReplayLoader {
 				const totalTicks = this.replayData.full_tick_amount;
 				for (let t = 1; t <= totalTicks; t++) {
 					const tickData = this.replayData.ticks[t.toString()];
-					if (tickData && tickData.objects) {
+					if (tickData?.objects) {
 						this.applyDiff(fullState, tickData);
 					}
 					if (t % this.cacheInterval === 0) {
@@ -66,12 +84,12 @@ class ReplayLoader {
 		}
 	}
 
-	public getStateAt(tick: number): any {
+	public getStateAt(tick: number): ReplayTick {
 		if (tick < 0 || tick > this.replayData.full_tick_amount) {
 			throw new Error("Tick out of range");
 		}
 		let snapshotTick = -1;
-		for (let key of this.cache.keys()) {
+		for (const key of this.cache.keys()) {
 			if (key <= tick && key > snapshotTick) {
 				snapshotTick = key;
 			}
@@ -79,24 +97,24 @@ class ReplayLoader {
 		if (snapshotTick === -1) {
 			throw new Error("No snapshot found");
 		}
-		let cachedState = this.cache.get(snapshotTick);
+		const cachedState = this.cache.get(snapshotTick);
 		if (!cachedState) {
 			throw new Error("Cached state not found");
 		}
-		let state: State = deepClone(cachedState);
+		const state: State = deepClone(cachedState);
 		for (let t = snapshotTick + 1; t <= tick; t++) {
 			const tickData = this.replayData.ticks[t.toString()];
-			if (tickData && tickData.objects) {
+			if (tickData?.objects) {
 				this.applyDiff(state, tickData);
 			}
 		}
-		return { objects: Object.values(state) };
+		return { objects: Object.values(state), actions: [] } as ReplayTick;
 	}
 }
 
 let replayLoader: ReplayLoader | null = null;
 
-export async function loadReplay(filePath: string, cacheInterval: number = 25): Promise<void> {
+export async function loadReplay(filePath: string, cacheInterval = 25): Promise<void> {
 	replayLoader = new ReplayLoader(cacheInterval);
 	await replayLoader.loadReplay(filePath)
 		.then(() => {
@@ -104,12 +122,19 @@ export async function loadReplay(filePath: string, cacheInterval: number = 25): 
 		})
 		.catch((err) => {
 			console.log("Failed to load Replay: ", err);
+			throw new Error("Failed to load Replay: ", err);
 		});
 }
 
-export function getStateAt(tick: number): any {
+export function getStateAt(tick: number): ReplayTick | null {
 	if (!replayLoader) {
 		throw new Error("Replay not loaded. Please call loadReplay first.");
 	}
-	return replayLoader.getStateAt(tick);
+
+	try {
+		return replayLoader.getStateAt(tick);
+	} catch (err) {
+		console.log(err);
+		return null;
+	}
 }

@@ -13,23 +13,51 @@
 
 	interactivity();
 
+	interface TickObject
+	{
+		id: number,
+		type?: number,
+		x?: number,
+		y?: number,
+		hp?: number,
+		teamId?: number,
+		balance?: number,
+	}
+
 	let billboarding = $state(false);
 	let fps = $state(30);
 
 	let props = $props();
-	let currFrame: any;
-	let loadedReplay: boolean = false;
+	let currFrame = $state<TickObject[]>([]);
+	let currentTick = $state(0);
+	let replayLoaded = false;
 
 	console.log('Replay url:', props.replayUrl);
 
+	function showFrame(frame: number) {
+
+		if (!replayLoaded) {
+			console.warn("Replay not loaded yet!");
+			return;
+		}
+
+		console.log('showFrame', frame);
+		const tFrame = getStateAt(frame);
+		
+		if (tFrame) {
+			console.log('tFrame', tFrame);
+			currFrame = tFrame.objects;
+		}
+	}
+
 	loadReplay(props.replayUrl)
-		.then((replay) => {
-			console.log('replay', replay);
-			loadedReplay = true;
+		.then(() => {
+			console.info("Replay loaded!");
+			replayLoaded = true;
+			showFrame(0);
 		})
-		.catch(() => {
-			console.error('Failed to load replay');
-			loadedReplay = false;
+		.catch((err) => {
+			console.error(err);
 		});
 
 	const scale = new Spring(1);
@@ -49,28 +77,18 @@
 
 	for (let x = 0; x < gridSize; x++) {
 		for (let z = 0; z < gridSize; z++) {
-			// Center the grid by offsetting by half the grid size
-			const xPos = x - Math.floor(gridSize / 2);
-			const zPos = z - Math.floor(gridSize / 2);
 
-			// Calculate checkerboard pattern
 			const isDark = (x + z) % 2 === 0;
 
 			gridBlocks.push({
-				position: [xPos, 0, zPos],
+				position: [x, 0, z],
 				isDark
 			});
 		}
 	}
-
-	function showFrame(frame: number) {
-		console.log('showFrame', frame);
-		const tFrame = getStateAt(frame);
-		console.log(tFrame);
-		currFrame = frame;
-	}
-
-	showFrame(0);
+	$effect(() => {
+		showFrame(currentTick);
+	});
 </script>
 
 <Sky elevation={0.5} />
@@ -91,7 +109,7 @@
 	/>
 </T.PerspectiveCamera>
 
-<Settings bind:billboarding bind:fps />
+<Settings bind:billboarding bind:fps bind:currentTick />
 
 <T.DirectionalLight position={[0, 10, 10]} castShadow />
 
@@ -101,10 +119,13 @@
 	{/each}
 </T.Mesh>
 
-<Tree position={[0, 2, 7]} treeType="green" variant={0} scale={[3, 3]} {billboarding} />
-<Tree position={[1, 2, 6]} treeType="green" variant={0} scale={[3, 3]} {billboarding} />
-<Tree position={[2, 2, 5]} treeType="green" variant={0} scale={[3, 3]} {billboarding} />
-<Tree position={[3, 2, 4]} treeType="green" variant={0} scale={[3, 3]} {billboarding} />
-<Tree position={[4, 2, 3]} treeType="green" variant={0} scale={[3, 3]} {billboarding} />
-<Tree position={[5, 2, 2]} treeType="green" variant={0} scale={[3, 3]} {billboarding} />
-<Unit position={[6, 2, 1]} type_id={0} team_id={0} scale={[3, 3]} {billboarding} />
+
+{#each currFrame as object}
+	{#if object.type === 0}
+		<Unit position={[object.x ? object.x : -1, 2, object.y ? object.y : -1]} type_id={object.type} team_id={object.teamId ? object.teamId : 0} scale={[3, 3]} {billboarding} />
+	{:else}
+		<Tree position={[object.x ? object.x : -1, 2, object.y ? object.y : -1]} treeType="green" variant={1} scale={[3, 3]} {billboarding} />
+	{/if}
+{/each}
+
+
