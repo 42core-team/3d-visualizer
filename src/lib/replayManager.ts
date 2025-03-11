@@ -28,6 +28,8 @@ export interface ReplayData {
 
 type State = { [id: string]: unknown };
 
+export let totalReplayTicks = -1;
+
 function deepClone<T>(obj: T): T {
 	return JSON.parse(JSON.stringify(obj));
 }
@@ -57,6 +59,7 @@ class ReplayLoader {
 				this.cache.set(0, deepClone(fullState));
 
 				const totalTicks = this.replayData.full_tick_amount;
+				totalReplayTicks = totalTicks;
 				for (let t = 1; t <= totalTicks; t++) {
 					const tickData = this.replayData.ticks[t.toString()];
 					if (tickData?.objects) {

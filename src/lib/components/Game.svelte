@@ -8,21 +8,10 @@
 	import { Sky } from '@threlte/extras';
 	import Settings from './Settings.svelte';
 	import Unit from './sprites/Unit.svelte';
-	import { getStateAt, loadReplay } from '$lib/replayManager';
+	import { getStateAt, loadReplay, type TickObject } from '$lib/replayManager';
 	import { get } from 'svelte/store';
 
 	interactivity();
-
-	interface TickObject
-	{
-		id: number,
-		type?: number,
-		x?: number,
-		y?: number,
-		hp?: number,
-		teamId?: number,
-		balance?: number,
-	}
 
 	let billboarding = $state(false);
 	let fps = $state(30);
@@ -62,10 +51,10 @@
 
 	const scale = new Spring(1);
 
-	let rotation = 0;
-	useTask((delta) => {
-		rotation += delta;
-	});
+	// let rotation = 0;
+	// useTask((delta) => {
+	// 	rotation += delta;
+	// });
 
 	// Generate positions for a 25x25 grid
 	const gridSize = 25;
@@ -75,8 +64,8 @@
 	};
 	const gridBlocks: BlockData[] = [];
 
-	for (let x = 0; x < gridSize; x++) {
-		for (let z = 0; z < gridSize; z++) {
+	for (let x = -1; x < gridSize; x++) {
+		for (let z = - 1; z < gridSize; z++) {
 
 			const isDark = (x + z) % 2 === 0;
 
@@ -95,23 +84,28 @@
 
 <T.PerspectiveCamera
 	makeDefault
-	position={[10, 10, 10]}
+	position={[gridSize / 2 + 10, 10, gridSize / 2 + 10]}
 	oncreate={(ref) => {
-		ref.lookAt(0, 1, 0);
+		const middleX = gridSize / 2;
+		const middleZ = gridSize / 2;
+		console.log('Camera created', ref);
+		console.log('Middle:', middleX, middleZ);
+		ref.lookAt(middleX, 0, middleZ);
 	}}
 >
 	<OrbitControls
-		autoRotate
-		enableZoom={false}
-		enableDamping
+		autoRotate={false}
+		enableZoom={true}
+		enableDamping={true}
 		autoRotateSpeed={0.1}
-		enablePan={false}
+		enablePan={true}
+		enableRotate={true}
 	/>
 </T.PerspectiveCamera>
 
 <Settings bind:billboarding bind:fps bind:currentTick />
 
-<T.DirectionalLight position={[0, 10, 10]} castShadow />
+<T.DirectionalLight position={[gridSize / 2, 10, gridSize / 2 + 10]} castShadow={true} />
 
 <T.Mesh position={[0, 0, 0]}>
 	{#each gridBlocks as block}
@@ -122,9 +116,11 @@
 
 {#each currFrame as object}
 	{#if object.type === 0}
-		<Unit position={[object.x ? object.x : -1, 2, object.y ? object.y : -1]} type_id={object.type} team_id={object.teamId ? object.teamId : 0} scale={[3, 3]} {billboarding} />
-	{:else}
 		<Tree position={[object.x ? object.x : -1, 2, object.y ? object.y : -1]} treeType="green" variant={1} scale={[3, 3]} {billboarding} />
+	{:else if object.type === 1}
+		<Unit position={[object.x ? object.x : -1, 2, object.y ? object.y : -1]} type_id={0} team_id={object.teamId ? object.teamId : 0} scale={[3, 3]} {billboarding} />
+	{:else}
+		<Tree position={[object.x ? object.x : -1, 2, object.y ? object.y : -1]} treeType="red" variant={1} scale={[3, 3]} {billboarding} />
 	{/if}
 {/each}
 
