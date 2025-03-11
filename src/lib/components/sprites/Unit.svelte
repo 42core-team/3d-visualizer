@@ -1,6 +1,11 @@
 <script lang="ts">
 	import { T } from '@threlte/core';
-	import { InstancedSprite, buildSpritesheet, type SpritesheetMetadata } from '@threlte/extras';
+	import {
+		InstancedSprite,
+		Instance,
+		buildSpritesheet,
+		type SpritesheetMetadata
+	} from '@threlte/extras';
 	import type { Vector2Tuple, Vector3Tuple } from 'three';
 
 	let {
@@ -28,13 +33,12 @@
 	] as const satisfies SpritesheetMetadata;
 
 	const treeAtlas = buildSpritesheet.from<typeof treeAtlasMeta>(treeAtlasMeta);
-
 </script>
 
 {#await treeAtlas.spritesheet then spritesheet}
-	<InstancedSprite {billboarding} {spritesheet} playmode={'PAUSE'} castShadow count={1}>
-		{#snippet children({ Instance })}
-			<Instance {position} {scale} />
+	<InstancedSprite {billboarding} {spritesheet} playmode={'PAUSE'} count={1}>
+		{#snippet children({ Instance }: { Instance: any })}
+			<Instance {position} {scale} castShadow />
 		{/snippet}
 	</InstancedSprite>
 {/await}

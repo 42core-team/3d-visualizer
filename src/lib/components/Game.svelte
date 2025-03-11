@@ -5,11 +5,11 @@
 	import { Spring } from 'svelte/motion';
 	import GrassBlock from './blocks/GrassBlock.svelte';
 	import Tree from './sprites/Tree.svelte';
-	import { Sky } from '@threlte/extras';
+	import { Sky, CSM } from '@threlte/extras';
 	import Settings from './Settings.svelte';
 	import Unit from './sprites/Unit.svelte';
 	import { getStateAt, loadReplay, type TickObject } from '$lib/replayManager';
-	import { get } from 'svelte/store';
+	import { Vector3 } from 'three';
 
 	interactivity();
 
@@ -24,15 +24,14 @@
 	console.log('Replay url:', props.replayUrl);
 
 	function showFrame(frame: number) {
-
 		if (!replayLoaded) {
-			console.warn("Replay not loaded yet!");
+			console.warn('Replay not loaded yet!');
 			return;
 		}
 
 		console.log('showFrame', frame);
 		const tFrame = getStateAt(frame);
-		
+
 		if (tFrame) {
 			console.log('tFrame', tFrame);
 			currFrame = tFrame.objects;
@@ -41,7 +40,7 @@
 
 	loadReplay(props.replayUrl)
 		.then(() => {
-			console.info("Replay loaded!");
+			console.info('Replay loaded!');
 			replayLoaded = true;
 			showFrame(0);
 		})
@@ -65,8 +64,7 @@
 	const gridBlocks: BlockData[] = [];
 
 	for (let x = -1; x < gridSize; x++) {
-		for (let z = - 1; z < gridSize; z++) {
-
+		for (let z = -1; z < gridSize; z++) {
 			const isDark = (x + z) % 2 === 0;
 
 			gridBlocks.push({
@@ -84,14 +82,11 @@
 
 <T.PerspectiveCamera
 	makeDefault
-	position={[gridSize / 2 + 10, 10, gridSize / 2 + 10]}
+	position={[gridSize + 10, 10, gridSize + 10]}
 	oncreate={(ref) => {
-		const middleX = gridSize / 2;
-		const middleZ = gridSize / 2;
-		console.log('Camera created', ref);
-		console.log('Middle:', middleX, middleZ);
-		ref.lookAt(middleX, 0, middleZ);
+		ref.lookAt(0, 0, 0);
 	}}
+	fov={60}
 >
 	<OrbitControls
 		autoRotate={false}
@@ -105,23 +100,44 @@
 
 <Settings bind:billboarding bind:fps bind:currentTick />
 
-<T.DirectionalLight position={[gridSize / 2, 10, gridSize / 2 + 10]} castShadow={true} />
+<CSM
+	args={{
+		mode: 'logarithmic'
+	}}
+	lightDirection={[-1, -1, -1]}
+	lightIntensity={5}
+>
+	<T.Mesh position={[0, 0, 0]} recieveShadows>
+		{#each gridBlocks as block}
+			<GrassBlock position={block.position} scale={scale.current} isDark={block.isDark} />
+		{/each}
+	</T.Mesh>
 
-<T.Mesh position={[0, 0, 0]}>
-	{#each gridBlocks as block}
-		<GrassBlock position={block.position} scale={scale.current} isDark={block.isDark} />
+	{#each currFrame as object}
+		{#if object.type === 0}
+			<Tree
+				position={[object.x ? object.x : -1, 1, object.y ? object.y : -1]}
+				treeType="red"
+				variant={6}
+				scale={[1, 1]}
+				{billboarding}
+			/>
+		{:else if object.type === 1}
+			<Unit
+				position={[object.x ? object.x : -1, 1, object.y ? object.y : -1]}
+				type_id={0}
+				team_id={object.teamId ? object.teamId : 0}
+				scale={[1, 1]}
+				{billboarding}
+			/>
+		{:else}
+			<Tree
+				position={[object.x ? object.x : -1, 1, object.y ? object.y : -1]}
+				treeType="green"
+				variant={0}
+				scale={[1, 1]}
+				{billboarding}
+			/>
+		{/if}
 	{/each}
-</T.Mesh>
-
-
-{#each currFrame as object}
-	{#if object.type === 0}
-		<Tree position={[object.x ? object.x : -1, 2, object.y ? object.y : -1]} treeType="green" variant={1} scale={[3, 3]} {billboarding} />
-	{:else if object.type === 1}
-		<Unit position={[object.x ? object.x : -1, 2, object.y ? object.y : -1]} type_id={0} team_id={object.teamId ? object.teamId : 0} scale={[3, 3]} {billboarding} />
-	{:else}
-		<Tree position={[object.x ? object.x : -1, 2, object.y ? object.y : -1]} treeType="red" variant={1} scale={[3, 3]} {billboarding} />
-	{/if}
-{/each}
-
-
+</CSM>

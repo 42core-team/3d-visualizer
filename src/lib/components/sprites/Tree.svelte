@@ -54,16 +54,9 @@
 </script>
 
 {#await treeAtlas.spritesheet then spritesheet}
-	<InstancedSprite
-		{billboarding}
-		{spritesheet}
-		{animationName}
-		playmode={'PAUSE'}
-		castShadow
-		count={1}
-	>
-		{#snippet children({ Instance })}
-			<Instance {position} {scale} />
+	<InstancedSprite {billboarding} {spritesheet} playmode={'PAUSE'} castShadow count={1}>
+		{#snippet children({ Instance }: { Instance: any })}
+			<Instance {position} {scale} {animationName} castShadow />
 		{/snippet}
 	</InstancedSprite>
 {/await}
