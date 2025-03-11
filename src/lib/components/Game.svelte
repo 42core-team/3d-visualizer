@@ -63,8 +63,8 @@
 	};
 	const gridBlocks: BlockData[] = [];
 
-	for (let x = -1; x < gridSize; x++) {
-		for (let z = -1; z < gridSize; z++) {
+	for (let x = 0; x < gridSize; x++) {
+		for (let z = 0; z < gridSize; z++) {
 			const isDark = (x + z) % 2 === 0;
 
 			gridBlocks.push({
@@ -78,22 +78,22 @@
 	});
 </script>
 
-<Sky elevation={0.5} />
+<Sky elevation={1} />
 
 <T.PerspectiveCamera
 	makeDefault
 	position={[gridSize + 10, 10, gridSize + 10]}
 	oncreate={(ref) => {
-		ref.lookAt(0, 0, 0);
+		ref.lookAt(gridSize / 2, 0, gridSize / 2);
 	}}
 	fov={60}
 >
 	<OrbitControls
-		autoRotate={false}
+		autoRotate={true}
 		enableZoom={true}
 		enableDamping={true}
-		autoRotateSpeed={0.1}
-		enablePan={true}
+		autoRotateSpeed={0.3}
+		enablePan={false}
 		enableRotate={true}
 	/>
 </T.PerspectiveCamera>
@@ -114,30 +114,32 @@
 	</T.Mesh>
 
 	{#each currFrame as object}
-		{#if object.type === 0}
-			<Tree
-				position={[object.x ? object.x : -1, 1, object.y ? object.y : -1]}
-				treeType="red"
-				variant={6}
-				scale={[1, 1]}
-				{billboarding}
-			/>
-		{:else if object.type === 1}
-			<Unit
-				position={[object.x ? object.x : -1, 1, object.y ? object.y : -1]}
-				type_id={0}
-				team_id={object.teamId ? object.teamId : 0}
-				scale={[1, 1]}
-				{billboarding}
-			/>
-		{:else}
-			<Tree
-				position={[object.x ? object.x : -1, 1, object.y ? object.y : -1]}
-				treeType="green"
-				variant={0}
-				scale={[1, 1]}
-				{billboarding}
-			/>
+		{#if object.x != undefined && object.y != undefined}
+			{#if object.type === 0}
+				<Tree
+					position={[object.x, 1, object.y]}
+					treeType={object.teamId === 1 ? 'dead' : 'red'}
+					variant={1}
+					scale={[1, 1]}
+					{billboarding}
+				/>
+			{:else if object.type === 1}
+				<Unit
+					position={[object.x, 1, object.y]}
+					type_id={0}
+					team_id={object.teamId ? object.teamId : 0}
+					scale={[1, 1]}
+					{billboarding}
+				/>
+			{:else}
+				<Tree
+					position={[object.x, 1, object.y]}
+					treeType="green"
+					variant={0}
+					scale={[1, 1]}
+					{billboarding}
+				/>
+			{/if}
 		{/if}
 	{/each}
 </CSM>
