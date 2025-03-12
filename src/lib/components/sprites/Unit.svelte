@@ -22,23 +22,26 @@
 		type_id: number;
 	} = $props();
 
-	const treeAtlasMeta = [
+	const meta = [
 		{
-			url: '/textures/sprites/skeleton/archer/idle_0.png',
+			url: '/textures/sprites/goblin/goblin_archer_sheet.png',
 			type: 'rowColumn',
-			width: 1,
+			width: 10,
 			height: 1,
-			animations: []
+			animations: [
+				{ name: 'idle', frameRange: [0, 3] },
+				{ name: 'walk', frameRange: [4, 9] }
+			]
 		}
 	] as const satisfies SpritesheetMetadata;
 
-	const treeAtlas = buildSpritesheet.from<typeof treeAtlasMeta>(treeAtlasMeta);
+	const sheet = buildSpritesheet.from<typeof meta>(meta);
 </script>
 
-{#await treeAtlas.spritesheet then spritesheet}
-	<InstancedSprite {billboarding} {spritesheet} playmode={'PAUSE'} count={1}>
+{#await sheet.spritesheet then spritesheet}
+	<InstancedSprite {billboarding} {spritesheet} playmode={'FORWARD'} count={1}>
 		{#snippet children({ Instance }: { Instance: any })}
-			<Instance {position} {scale} castShadow />
+			<Instance {position} {scale} castShadow animationName="walk" />
 		{/snippet}
 	</InstancedSprite>
 {/await}
