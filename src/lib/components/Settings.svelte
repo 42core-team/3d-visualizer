@@ -1,10 +1,13 @@
 <script lang="ts">
 	import { Button, Checkbox, Pane, Slider, ThemeUtils } from 'svelte-tweakpane-ui';
 	import { totalReplayTicks } from '$lib/replayManager';
-	export let billboarding: boolean;
-	export let fps: number;
-	export let currentTick: number = 0;
-	export let paused: boolean = false;
+	let {
+		billboarding = $bindable(),
+		fps = $bindable(),
+		currentTick = $bindable()
+	} = $props<{ billboarding: boolean; fps: number; currentTick: number }>();
+
+	let paused = $state(true);
 
 	function incrementContinuous() {
 		const interval = setInterval(() => {
@@ -19,7 +22,7 @@
 	incrementContinuous();
 </script>
 
-<Pane theme={ThemeUtils.presets.light} position="fixed" title="Replay Settings">
+<Pane theme={ThemeUtils.presets.light} position="fixed" title="Replay Settings" y={100}>
 	<Checkbox bind:value={billboarding} label="billboarding" />
 	<Slider label="Speed" min={1} max={30} step={1} bind:value={fps} />
 	<Slider label="Timeline" min={0} max={totalReplayTicks} step={1} bind:value={currentTick} />

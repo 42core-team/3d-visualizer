@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { T, useTask } from '@threlte/core';
 	import { interactivity } from '@threlte/extras';
 	import { OrbitControls } from '@threlte/extras';
@@ -19,7 +20,7 @@
 	let props = $props();
 	let currFrame = $state<TickObject[]>([]);
 	let currentTick = $state(0);
-	let replayLoaded = false;
+	let replayLoaded = $state(false);
 
 	console.log('Replay url:', props.replayUrl);
 
@@ -38,15 +39,17 @@
 		}
 	}
 
-	loadReplay(props.replayUrl)
-		.then(() => {
-			console.info('Replay loaded!');
-			replayLoaded = true;
-			showFrame(0);
-		})
-		.catch((err) => {
-			console.error(err);
-		});
+	onMount(() => {
+		loadReplay(props.replayUrl)
+			.then(() => {
+				console.info('Replay loaded!');
+				replayLoaded = true;
+				showFrame(0);
+			})
+			.catch((err) => {
+				console.error(err);
+			});
+	});
 
 	const scale = new Spring(1);
 
@@ -89,7 +92,7 @@
 	fov={60}
 >
 	<OrbitControls
-		autoRotate={true}
+		autoRotate={false}
 		enableZoom={true}
 		enableDamping={true}
 		autoRotateSpeed={0.3}
@@ -98,7 +101,9 @@
 	/>
 </T.PerspectiveCamera>
 
-<Settings bind:billboarding bind:fps bind:currentTick />
+{#if replayLoaded}
+	<Settings bind:billboarding bind:fps bind:currentTick />
+{/if}
 
 <CSM
 	args={{
