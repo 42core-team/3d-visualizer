@@ -10,7 +10,6 @@
 	import Settings from './Settings.svelte';
 	import Unit from './sprites/Unit.svelte';
 	import { getStateAt, loadReplay, type TickObject } from '$lib/replayManager';
-	import { Vector3 } from 'three';
 
 	interactivity();
 
@@ -86,12 +85,10 @@
 <T.PerspectiveCamera
 	makeDefault
 	position={[gridSize + 10, 10, gridSize + 10]}
-	oncreate={(ref) => {
-		ref.lookAt(gridSize / 2, 0, gridSize / 2);
-	}}
 	fov={60}
 >
 	<OrbitControls
+		target={[gridSize / 2, 0, gridSize / 2]}
 		autoRotate={false}
 		enableZoom={true}
 		enableDamping={true}
