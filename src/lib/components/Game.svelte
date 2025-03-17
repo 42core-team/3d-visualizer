@@ -5,6 +5,7 @@
 	import { OrbitControls } from '@threlte/extras';
 	import { Spring } from 'svelte/motion';
 	import GrassBlock from './blocks/GrassBlock.svelte';
+	import WallBlock from './blocks/WallBlock.svelte';
 	import Tree from './sprites/Tree.svelte';
 	import { Sky, CSM } from '@threlte/extras';
 	import Settings from './Settings.svelte';
@@ -125,7 +126,7 @@
 					scale={[1, 1]}
 					{billboarding}
 				/>
-			{:else if object.type === 1}
+				{:else if object.type === 1}
 				<Unit
 					position={[object.x, 1, object.y]}
 					type_id={0}
@@ -133,7 +134,7 @@
 					scale={[1, 1]}
 					{billboarding}
 				/>
-			{:else}
+				{:else if object.type === 2}
 				<Tree
 					position={[object.x, 1, object.y]}
 					treeType="green"
@@ -141,6 +142,8 @@
 					scale={[1, 1]}
 					{billboarding}
 				/>
+			{:else}
+				<WallBlock position={[object.x, 0.5, object.y]} scale={scale.current} isDark={true} />
 			{/if}
 		{/if}
 	{/each}
