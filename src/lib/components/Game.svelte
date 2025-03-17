@@ -143,7 +143,7 @@
 					{billboarding}
 				/>
 			{:else}
-				<WallBlock position={[object.x, 0.5, object.y]} scale={scale.current} isDark={true} />
+				<WallBlock position={[object.x, 0.75, object.y]} scale={scale.current} isDark={true} />
 			{/if}
 		{/if}
 	{/each}
