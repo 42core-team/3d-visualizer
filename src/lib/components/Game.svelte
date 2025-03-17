@@ -83,11 +83,7 @@
 
 <Sky elevation={1} />
 
-<T.PerspectiveCamera
-	makeDefault
-	position={[gridSize + 10, 10, gridSize + 10]}
-	fov={60}
->
+<T.PerspectiveCamera makeDefault position={[gridSize + 10, 10, gridSize + 10]} fov={60}>
 	<OrbitControls
 		target={[gridSize / 2, 0, gridSize / 2]}
 		autoRotate={false}
@@ -126,7 +122,7 @@
 					scale={[1, 1]}
 					{billboarding}
 				/>
-				{:else if object.type === 1}
+			{:else if object.type === 1}
 				<Unit
 					position={[object.x, 1, object.y]}
 					type_id={0}
@@ -134,7 +130,7 @@
 					scale={[1, 1]}
 					{billboarding}
 				/>
-				{:else if object.type === 2}
+			{:else if object.type === 2}
 				<Tree
 					position={[object.x, 1, object.y]}
 					treeType="green"
