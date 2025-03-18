@@ -13,9 +13,9 @@
 		const interval = setInterval(() => {
 			if (paused) return;
 			currentTick += 1;
-			//if (currentTick >= 600) {
-			//	clearInterval(interval);
-			//}
+			if (currentTick >= totalReplayTicks) {
+				clearInterval(interval);
+			}
 		}, 1000 / fps);
 	}
 
