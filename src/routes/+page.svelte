@@ -3,7 +3,7 @@
 
 	import Game from '$lib/components/Game.svelte';
 
-	const replayUrl = '/replays/test2.json';
+	const replayUrl = '/replays/testDeath.json';
 </script>
 
 <Canvas>
