@@ -82,11 +82,7 @@
 
 <Sky elevation={1} />
 
-<T.PerspectiveCamera
-	makeDefault
-	position={[gridSize + 10, 10, gridSize + 10]}
-	fov={60}
->
+<T.PerspectiveCamera makeDefault position={[gridSize + 10, 10, gridSize + 10]} fov={60}>
 	<OrbitControls
 		target={[gridSize / 2, 0, gridSize / 2]}
 		autoRotate={false}
