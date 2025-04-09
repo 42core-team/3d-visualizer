@@ -24,6 +24,21 @@ export interface ReplayTick {
 export interface ReplayData {
 	ticks: { [tick: string]: ReplayTick };
 	full_tick_amount: number;
+	config?: GameConfig;
+}
+
+export interface GameConfig {
+	width: number;
+	height: number;
+	tickRate: number;
+	idleIncome: number;
+	idleIncomeTimeOut: number;
+	resourceHp: number;
+	resourceIncome: number;
+	coreHp: number;
+	initialBalance: number;
+	wallHp: number;
+	wallBuildCost: number;
 }
 
 type State = { [id: string]: unknown };
@@ -81,8 +96,9 @@ class ReplayLoader {
 			const id = diffObj.id;
 			if (state[id]) {
 				Object.assign(state[id], diffObj);
-				if (diffObj.state == 'dead') { // maybe some death animations through progressive state change
-					delete state[id];		// maybe cores should not disappear on death
+				if (diffObj.state == 'dead') {
+					// maybe some death animations through progressive state change
+					delete state[id]; // maybe cores should not disappear on death
 				}
 			} else {
 				state[id] = deepClone(diffObj);
@@ -116,6 +132,10 @@ class ReplayLoader {
 		}
 		return { objects: Object.values(state), actions: [] } as ReplayTick;
 	}
+
+	public getGameConfig(): GameConfig | undefined {
+		return this.replayData.config;
+	}
 }
 
 let replayLoader: ReplayLoader | null = null;
@@ -144,4 +164,12 @@ export function getStateAt(tick: number): ReplayTick | null {
 		console.log(err);
 		return null;
 	}
+}
+
+export function getGameConfig(): GameConfig | undefined {
+	if (!replayLoader) {
+		throw new Error('Replay not loaded. Please call loadReplay first.');
+	}
+
+	return replayLoader.getGameConfig();
 }
