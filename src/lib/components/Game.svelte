@@ -114,7 +114,7 @@
 					<Unit
 						position={[object.x, 1, object.y]}
 						type_id={0}
-						type={"idle"}
+						type={'idle'}
 						dir={'l'}
 						team_id={object.teamId ? object.teamId : 0}
 						scale={[1, 1]}
@@ -129,7 +129,7 @@
 						{billboarding}
 					/>
 				{:else}
-					<WallBlock position={[object.x, 1, object.y]} scale={scale.current} isDark={true} />
+					<WallBlock position={[object.x, 0.75, object.y]} scale={scale.current} isDark={true} />
 				{/if}
 			{/if}
 		{/each}
