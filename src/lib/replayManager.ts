@@ -3,6 +3,7 @@ export interface TickObject {
 	type?: number;
 	x?: number;
 	y?: number;
+	dir?: number;
 	hp?: number;
 	teamId?: number;
 	balance?: number;

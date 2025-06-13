@@ -12,46 +12,31 @@
 		position = [0, 1.5, 0] as Vector3Tuple,
 		scale = [3, 3],
 		billboarding = true,
-		team_id,
-		type_id,
-		type,
-		dir
+		team_id
 	}: {
 		position: Vector3Tuple;
 		scale: Vector2Tuple;
 		billboarding: boolean;
 		team_id: number;
-		type_id: number;
-		type: String;
-		dir: String;
 	} = $props();
 
 	const meta = [
 		{
-			url: '/textures/sprites/goblin/goblin_carry.png',
+			url: '/textures/sprites/core/MainCharacter.png',
 			type: 'rowColumn',
-			width: 6,
+			width: 4,
 			height: 1,
 			animations: [
-				{ name: 'carry_walk', frameRange: [0, 5] }
+				{ name: 'core_idle_blue', frameRange: [0, 3] }
 			]
 		},
 		{
-			url: '/textures/sprites/goblin/goblin_archer.png',
+			url: '/textures/sprites/core/MainCharacter2.png',
 			type: 'rowColumn',
-			width: 6,
+			width: 4,
 			height: 1,
 			animations: [
-				{ name: 'arch_walk', frameRange: [0, 5] }
-			]
-		},
-		{
-			url: '/textures/sprites/goblin/goblin_warrior.png',
-			type: 'rowColumn',
-			width: 6,
-			height: 1,
-			animations: [
-				{ name: 'warrior_walk', frameRange: [0, 5] }
+				{ name: 'core_idle_red', frameRange: [0, 3] }
 			]
 		}
 	] as const satisfies SpritesheetMetadata;
@@ -66,9 +51,8 @@
 				{position}
 				{scale} 
 				castShadow 
-				animationName={	type_id === 0 ? 'carry_walk' : 
-								type_id === 1 ? 'arch_walk' :
-												'warrior_walk'}
+				animationName={	team_id === 1 ? 'core_idle_blue' :
+												'core_idle_red'}
 			/>
 		{/snippet}
 	</InstancedSprite>
