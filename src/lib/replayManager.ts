@@ -11,7 +11,7 @@ export interface TickObject {
 
 export interface TickAction {
 	type: string;
-	type_id?: number;
+	unit_type?: number;
 	unit_id?: number;
 	dir?: number;
 }

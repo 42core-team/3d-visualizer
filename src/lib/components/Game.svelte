@@ -113,7 +113,7 @@
 				{:else if object.type === 1}
 					<Unit
 						position={[object.x, 1, object.y]}
-						type_id={0}
+						unit_type={0}
 						team_id={object.teamId ? object.teamId : 0}
 						scale={[1, 1]}
 						{billboarding}

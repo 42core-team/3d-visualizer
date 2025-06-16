@@ -151,7 +151,7 @@
 				{ "id": 2, "balance": 202 },
 				{ "id": 1, "balance": 52 }
 			],
-			"actions": [{ "type": "create", "type_id": 0 }]
+			"actions": [{ "type": "create", "unit_type": 0 }]
 		},
 		"2": {
 			"objects": [
@@ -489,7 +489,7 @@
 				{ "id": 2, "balance": 251 },
 				{ "id": 1, "balance": 1 }
 			],
-			"actions": [{ "type": "create", "type_id": 1 }]
+			"actions": [{ "type": "create", "unit_types": 1 }]
 		},
 		"51": {
 			"objects": [
@@ -1356,7 +1356,7 @@
 				{ "id": 1, "balance": 1 }
 			],
 			"actions": [
-				{ "type": "create", "type_id": 2 },
+				{ "type": "create", "unit_type": 2 },
 				{ "type": "move", "unit_id": 132, "dir": "r", "attacked": true }
 			]
 		},

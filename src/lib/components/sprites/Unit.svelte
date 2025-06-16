@@ -13,13 +13,13 @@
 		scale = [3, 3],
 		billboarding = true,
 		team_id,
-		type_id
+		unit_type
 	}: {
 		position: Vector3Tuple;
 		scale: Vector2Tuple;
 		billboarding: boolean;
 		team_id: number;
-		type_id: number;
+		unit_type: number;
 	} = $props();
 
 	const meta = [

@@ -48,7 +48,7 @@
 				{ "id": 1, "balance": 52 },
 				{ "id": 2, "balance": 202 }
 			],
-			"actions": [{ "type": "create", "type_id": 0 }]
+			"actions": [{ "type": "create", "unit_type": 0 }]
 		},
 		"2": {
 			"objects": [
@@ -418,7 +418,7 @@
 				{ "id": 1, "balance": 1 },
 				{ "id": 2, "balance": 251 }
 			],
-			"actions": [{ "type": "create", "type_id": 1 }]
+			"actions": [{ "type": "create", "unit_type": 1 }]
 		},
 		"51": {
 			"objects": [
@@ -1364,7 +1364,7 @@
 				{ "id": 2, "balance": 376 },
 				{ "id": 1, "balance": 1 }
 			],
-			"actions": [{ "type": "create", "type_id": 2 }]
+			"actions": [{ "type": "create", "unit_type": 2 }]
 		},
 		"176": {
 			"objects": [
@@ -3636,7 +3636,7 @@
 			"actions": [
 				{ "type": "transfer_money", "source_id": 30, "target_id": 30, "amount": 200 },
 				{ "type": "move", "unit_id": 28, "dir": "r" },
-				{ "type": "create", "type_id": 3 }
+				{ "type": "create", "unit_type": 3 }
 			]
 		},
 		"476": {
