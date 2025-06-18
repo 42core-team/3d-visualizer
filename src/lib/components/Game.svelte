@@ -9,6 +9,7 @@
 	import { Sky, CSM } from '@threlte/extras';
 	import Settings from './Settings.svelte';
 	import Unit from './sprites/Unit.svelte';
+	import Core from './sprites/Core.svelte';
 	import {
 		getStateAt,
 		loadReplay,
@@ -49,7 +50,7 @@
 
 		if (tFrame) {
 			console.log('tFrame', tFrame);
-			currFrame = tFrame.objects;
+			currFrame = tFrame.objects; // add here functionality for actions
 		}
 	}
 
@@ -103,17 +104,18 @@
 		{#each currFrame as object}
 			{#if object.x != undefined && object.y != undefined}
 				{#if object.type === 0}
-					<Tree
+					<Core
 						position={[object.x, 1, object.y]}
-						treeType={object.teamId === 1 ? 'dead' : 'red'}
-						variant={1}
 						scale={[1, 1]}
 						{billboarding}
+						team_id={object.teamId ? object.teamId : 0}
 					/>
 				{:else if object.type === 1}
 					<Unit
 						position={[object.x, 1, object.y]}
-						unit_type={0}
+						type_id={0}
+						type={'idle'}
+						dir={'l'}
 						team_id={object.teamId ? object.teamId : 0}
 						scale={[1, 1]}
 						{billboarding}

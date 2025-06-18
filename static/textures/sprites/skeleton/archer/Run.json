@@ -1,0 +1,40 @@
+{ 
+  "CONTEXT": "UNIT_ANIMATION",
+  "SpriteDescriptor" :{
+    "SpriteName": "path lol",
+		"VFrames": 64,
+		"HFrames": 64
+  },
+  "Animations" : [
+    {
+      "AnimationName": "walk",
+			"Repeats": true,
+			"Frames": [
+        {
+					"FrameNumber": 1,
+					"Time": 0
+				},
+        {
+					"FrameNumber": 2,
+					"Time": 10
+				},
+        {
+					"FrameNumber": 3,
+					"Time": 20
+				},
+        {
+					"FrameNumber": 4,
+					"Time": 30
+				},
+        {
+					"FrameNumber": 5,
+					"Time": 40
+				},
+        {
+					"FrameNumber": 6,
+					"Time": 50
+				}
+      ]
+    }
+  ]
+}
