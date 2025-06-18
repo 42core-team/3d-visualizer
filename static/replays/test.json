@@ -200,7 +200,7 @@
 			"actions": [
 				{
 					"type": "create",
-					"type_id": 0
+					"unit_type": 0
 				}
 			]
 		},
@@ -1161,7 +1161,7 @@
 			"actions": [
 				{
 					"type": "create",
-					"type_id": 1
+					"unit_type": 1
 				}
 			]
 		},
@@ -3824,7 +3824,7 @@
 			"actions": [
 				{
 					"type": "create",
-					"type_id": 2
+					"unit_type": 2
 				}
 			]
 		},
@@ -9269,7 +9269,7 @@
 			"actions": [
 				{
 					"type": "create",
-					"type_id": 3
+					"unit_type": 3
 				}
 			]
 		},
