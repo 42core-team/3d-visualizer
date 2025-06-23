@@ -14,7 +14,6 @@
 		billboarding = true,
 		team_id,
 		type_id,
-		type,
 		dir
 	}: {
 		position: Vector3Tuple;
@@ -22,36 +21,78 @@
 		billboarding: boolean;
 		team_id: number;
 		type_id: number;
-		type: String;
 		dir: String;
 	} = $props();
 
 	const meta = [
-		{
-			url: '/textures/sprites/goblin/goblin_carry.png',
-			type: 'rowColumn',
-			width: 6,
-			height: 1,
-			animations: [
-				{ name: 'carry_walk', frameRange: [0, 5] }
-			]
-		},
-		{
-			url: '/textures/sprites/goblin/goblin_archer.png',
-			type: 'rowColumn',
-			width: 6,
-			height: 1,
-			animations: [
-				{ name: 'arch_walk', frameRange: [0, 5] }
-			]
-		},
 		{
 			url: '/textures/sprites/goblin/goblin_warrior.png',
 			type: 'rowColumn',
 			width: 6,
 			height: 1,
 			animations: [
-				{ name: 'warrior_walk', frameRange: [0, 5] }
+				{ name: 'team_2_type_0_walk', frameRange: [0, 5] }
+			]
+		},
+		{
+			url: '/textures/sprites/goblin/goblin_carry.png',
+			type: 'rowColumn',
+			width: 6,
+			height: 1,
+			animations: [{ name: 'team_2_type_2_walk', frameRange: [0, 5] }]
+		},
+        {
+			url: '/textures/sprites/goblin/goblin_base.png',
+			type: 'rowColumn',
+			width: 6,
+			height: 1,
+			animations: [
+				{ name: 'team_2_type_1_walk', frameRange: [0, 5] },
+				{ name: 'team_2_type_3_walk', frameRange: [0, 5] },
+				{ name: 'team_2_type_4_walk', frameRange: [0, 5] }
+			]
+		},
+        {
+			url: '/textures/sprites/skeleton/skeleton_warrior.png',
+			type: 'rowColumn',
+			width: 6,
+			height: 1,
+			animations: [
+				{ name: 'team_1_type_0_walk', frameRange: [0, 5] }
+			]
+		},
+		{
+			url: '/textures/sprites/skeleton/skeleton_carry.png',
+			type: 'rowColumn',
+			width: 6,
+			height: 1,
+			animations: [{ name: 'team_1_type_2_walk', frameRange: [0, 5] }]
+		},
+        {
+			url: '/textures/sprites/skeleton/skeleton_base.png',
+			type: 'rowColumn',
+			width: 6,
+			height: 1,
+			animations: [
+				{ name: 'team_1_type_1_walk', frameRange: [0, 5] },
+				{ name: 'team_1_type_3_walk', frameRange: [0, 5] },
+				{ name: 'team_1_type_4_walk', frameRange: [0, 5] }
+			]
+		},
+        {
+			url: '/textures/sprites/missing_texture.png',
+			type: 'rowColumn',
+			width: 1,
+			height: 1,
+			animations: [
+				{ name: 'team_0_type_0_walk', frameRange: [0, 0] },
+				{ name: 'team_0_type_1_walk', frameRange: [0, 0] },
+				{ name: 'team_0_type_2_walk', frameRange: [0, 0] },
+				{ name: 'team_0_type_3_walk', frameRange: [0, 0] },
+				{ name: 'team_0_type_4_walk', frameRange: [0, 0] },
+				{ name: 'team_0_type_5_walk', frameRange: [0, 0] },
+				{ name: 'team_1_type_5_walk', frameRange: [0, 0] },
+				{ name: 'team_2_type_5_walk', frameRange: [0, 0] }
 			]
 		}
 	] as const satisfies SpritesheetMetadata;
@@ -62,14 +103,7 @@
 {#await sheet.spritesheet then spritesheet}
 	<InstancedSprite {billboarding} {spritesheet} playmode={'FORWARD'} count={1}>
 		{#snippet children({ Instance }: { Instance: any })}
-			<Instance 
-				{position}
-				{scale} 
-				castShadow 
-				animationName={	type_id === 0 ? 'carry_walk' : 
-								type_id === 1 ? 'arch_walk' :
-												'warrior_walk'}
-			/>
+			<Instance {position} {scale} castShadow animationName={`team_${team_id}_type_${type_id}_walk`} />
 		{/snippet}
 	</InstancedSprite>
 {/await}
