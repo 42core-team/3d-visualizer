@@ -83,7 +83,7 @@
 		enableZoom={true}
 		enableDamping={true}
 		autoRotateSpeed={0.3}
-		enablePan={false}
+		enablePan={true}
 		enableRotate={true}
 	/>
 </T.PerspectiveCamera>
@@ -112,24 +112,31 @@
 					/>
 				{:else if object.type === 1}
 					<Unit
-						position={[object.x, 1, object.y]}
-						type_id={0}
-						type={'idle'}
+						position={[object.x, 1.25, object.y]}
+						type_id={object.unit_type }
 						dir={'l'}
-						team_id={object.teamId ? object.teamId : 0}
-						scale={[1, 1]}
+						team_id={object.teamId || 0}
+						scale={[1.5, 1.5]}
 						{billboarding}
 					/>
 				{:else if object.type === 2}
 					<Tree
-						position={[object.x, 1, object.y]}
-						treeType="green"
+						position={[object.x, 0.85, object.y]}
+						treeType="gold"
 						variant={0}
-						scale={[1, 1]}
+						scale={[0.75, 0.75]}
 						{billboarding}
 					/>
-				{:else}
+				{:else if object.type === 3}
 					<WallBlock position={[object.x, 0.75, object.y]} scale={scale.current} isDark={true} />
+				{:else if object.type === 4}
+					<Tree
+						position={[object.x, 0.85, object.y]}
+						treeType="gold"
+						variant={1}
+						scale={[0.75, 0.75]}
+						{billboarding}
+					/>
 				{/if}
 			{/if}
 		{/each}
