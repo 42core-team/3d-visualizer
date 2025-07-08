@@ -113,7 +113,7 @@
 				{:else if object.type === 1}
 					<Unit
 						position={[object.x, 1.25, object.y]}
-						type_id={object.unit_type }
+						type_id={object.unit_type || 5}
 						dir={'l'}
 						team_id={object.teamId || 0}
 						scale={[1.5, 1.5]}
