@@ -7,6 +7,9 @@
 		type SpritesheetMetadata
 	} from '@threlte/extras';
 	import type { Vector2Tuple, Vector3Tuple } from 'three';
+	import { Text } from '@threlte/extras';
+	import { useCursor } from '@threlte/extras';
+	const { hovering, onPointerEnter, onPointerLeave } = useCursor();
 
 	let {
 		position = [0, 1.5, 0] as Vector3Tuple,
@@ -14,7 +17,8 @@
 		billboarding = true,
 		team_id,
 		type_id,
-		dir
+		dir,
+		debug_info = false
 	}: {
 		position: Vector3Tuple;
 		scale: Vector2Tuple;
@@ -22,6 +26,7 @@
 		team_id: number;
 		type_id: number;
 		dir: String;
+		debug_info: Boolean;
 	} = $props();
 
 	const meta = [
@@ -30,9 +35,7 @@
 			type: 'rowColumn',
 			width: 6,
 			height: 1,
-			animations: [
-				{ name: 'team_2_type_0_walk', frameRange: [0, 5] }
-			]
+			animations: [{ name: 'team_2_type_0_walk', frameRange: [0, 5] }]
 		},
 		{
 			url: '/textures/sprites/goblin/goblin_carry.png',
@@ -41,7 +44,7 @@
 			height: 1,
 			animations: [{ name: 'team_2_type_2_walk', frameRange: [0, 5] }]
 		},
-        {
+		{
 			url: '/textures/sprites/goblin/goblin_base.png',
 			type: 'rowColumn',
 			width: 6,
@@ -52,14 +55,12 @@
 				{ name: 'team_2_type_4_walk', frameRange: [0, 5] }
 			]
 		},
-        {
+		{
 			url: '/textures/sprites/skeleton/skeleton_warrior.png',
 			type: 'rowColumn',
 			width: 6,
 			height: 1,
-			animations: [
-				{ name: 'team_1_type_0_walk', frameRange: [0, 5] }
-			]
+			animations: [{ name: 'team_1_type_0_walk', frameRange: [0, 5] }]
 		},
 		{
 			url: '/textures/sprites/skeleton/skeleton_carry.png',
@@ -68,7 +69,7 @@
 			height: 1,
 			animations: [{ name: 'team_1_type_2_walk', frameRange: [0, 5] }]
 		},
-        {
+		{
 			url: '/textures/sprites/skeleton/skeleton_base.png',
 			type: 'rowColumn',
 			width: 6,
@@ -79,7 +80,8 @@
 				{ name: 'team_1_type_4_walk', frameRange: [0, 5] }
 			]
 		},
-        {
+		{
+			// catching textures for team 0 or unitType 5
 			url: '/textures/sprites/missing_texture.png',
 			type: 'rowColumn',
 			width: 1,
@@ -101,9 +103,36 @@
 </script>
 
 {#await sheet.spritesheet then spritesheet}
-	<InstancedSprite {billboarding} {spritesheet} playmode={'FORWARD'} count={1}>
+	<InstancedSprite
+		interactive
+		{billboarding}
+		{spritesheet}
+		playmode={'FORWARD'}
+		count={1}
+		onpointerenter={() => {
+			debug_info = true;
+		}}
+		onpointerleave={() => {
+			debug_info = false;
+		}}
+	>
 		{#snippet children({ Instance }: { Instance: any })}
-			<Instance {position} {scale} castShadow animationName={`team_${team_id}_type_${type_id}_walk`} />
+			<Instance
+				{position}
+				{scale}
+				castShadow
+				animationName={`team_${team_id}_type_${type_id}_walk`}
+			/>
 		{/snippet}
 	</InstancedSprite>
+	{#if debug_info === true}
+		<Text
+			position={[position[0], 3, position[2]]}
+			anchorX={'center'}
+			color={'red'}
+			scale={2}
+			{billboarding}
+			text={'hovering test'}
+		/>
+	{/if}
 {/await}
