@@ -6,15 +6,16 @@ export interface TickObject {
 	dir?: number;
 	hp?: number;
 	teamId?: number;
+	unit_type?: number;
 	balance?: number;
-	state?: string;
+	nextMoveOpp?: string;
 }
 
 export interface TickAction {
 	type: string;
-	unit_type?: number;
 	unit_id?: number;
-	dir?: number;
+	targetX?: number;
+    targetY?: number;
 }
 
 export interface ReplayTick {
