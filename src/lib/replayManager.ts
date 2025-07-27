@@ -98,10 +98,11 @@ class ReplayLoader {
 			const id = diffObj.id;
 			if (state[id]) {
 				Object.assign(state[id], diffObj);
-				if (diffObj.state == 'dead') {
-					// maybe some death animations through progressive state change
-					delete state[id]; // maybe cores should not disappear on death
-				}
+				// diffObj.state does not exist in the current data structure
+				// if (diffObj.state == 'dead') {
+				// 	// maybe some death animations through progressive state change
+				// 	delete state[id]; // maybe cores should not disappear on death
+				// }
 			} else {
 				state[id] = deepClone(diffObj);
 			}

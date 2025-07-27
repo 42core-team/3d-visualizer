@@ -7,7 +7,6 @@
 	texture.then(() => {
 		console.log('texture has loaded');
 	});
-	$inspect($texture);
 
 	let { position, scale, isDark = false } = $props();
 

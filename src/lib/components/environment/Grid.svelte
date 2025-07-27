@@ -27,8 +27,8 @@
 		<T.BoxGeometry args={[1, 1, 1]} />
 		<T.MeshStandardMaterial {map} />
 
-		{#each Array.from({ length: gridWidth }).map((_, i) => i) as x}
-			{#each Array.from({ length: gridDepth }).map((_, i) => i) as z}
+		{#each Array.from({ length: gridWidth }).map((_, i) => i) as x (x)}
+			{#each Array.from({ length: gridDepth }).map((_, i) => i) as z (z)}
 				{@const isDark = (x + z) % 2 === 0}
 				{@const color = isDark ? darkerColor : regularColor}
 				<Instance position={[position[0] + x, position[1], position[2] + z]} {color} />

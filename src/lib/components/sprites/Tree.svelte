@@ -1,7 +1,9 @@
 <script lang="ts">
-	import { T } from '@threlte/core';
 	import { InstancedSprite, buildSpritesheet, type SpritesheetMetadata } from '@threlte/extras';
 	import type { Vector3Tuple } from 'three';
+	import type { Component } from 'svelte';
+	// TODO: better import path
+	import type { SpriteInstanceProps } from '../../../../node_modules/@threlte/extras/dist/components/InstancedSprite/types.d.ts';
 
 	const treeAtlasMeta = [
 		{
@@ -59,7 +61,7 @@
 		position = [0, 1.5, 0] as Vector3Tuple,
 		treeType = 'green', // 'green', 'red', or 'dead'
 		variant = 0, // Variant number depends on type
-		scale = [3, 3],
+		scale = [3, 3] as [number, number],
 		billboarding = true
 	} = $props();
 
@@ -69,8 +71,8 @@
 
 {#await treeAtlas.spritesheet then spritesheet}
 	<InstancedSprite {billboarding} {spritesheet} playmode="PAUSE" castShadow count={1}>
-		{#snippet children({ Instance }: { Instance: any })}
-			<Instance {position} {scale} {animationName} castShadow />
+		{#snippet children({ Instance }: { Instance: Component<SpriteInstanceProps> })}
+			<Instance id={0} {position} {scale} {animationName} />
 		{/snippet}
 	</InstancedSprite>
 {/await}

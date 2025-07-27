@@ -101,7 +101,7 @@
 		<!-- Use the new Grid component for the grass blocks -->
 		<Grid position={[0, 0, 0]} size={gridSize} />
 
-		{#each currFrame as object}
+		{#each currFrame as object (object.id)}
 			{#if object.x != undefined && object.y != undefined}
 				{#if object.type === 0}
 					<Core
@@ -113,8 +113,7 @@
 				{:else if object.type === 1}
 					<Unit
 						position={[object.x, 1.25, object.y]}
-						type_id={object.unit_type}
-						dir="l"
+						type_id={object.unit_type || 0}
 						team_id={object.teamId || 0}
 						scale={[1.5, 1.5]}
 						{billboarding}
