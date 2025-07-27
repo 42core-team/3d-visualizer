@@ -17,7 +17,7 @@
 	const color = isDark ? darkerColor : regularColor;
 </script>
 
-{#await texture then map}
+{#await $texture then map}
 	<T.Mesh {position} {scale} receiveShadow>
 		<T.BoxGeometry args={[1, 0.5, 1]} />
 		<T.MeshStandardMaterial {map} {color} />

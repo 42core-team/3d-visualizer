@@ -35,6 +35,20 @@
 				{ name: 'dead_2', frameRange: [18, 18] },
 				{ name: 'dead_3', frameRange: [19, 19] }
 			]
+		},
+		{
+			url: '/textures/sprites/ressource.png',
+			type: 'rowColumn',
+			width: 1,
+			height: 1,
+			animations: [{ name: 'gold_0', frameRange: [0, 0] }]
+		},
+		{
+			url: '/textures/sprites/pile.png',
+			type: 'rowColumn',
+			width: 1,
+			height: 1,
+			animations: [{ name: 'gold_1', frameRange: [0, 0] }]
 		}
 	] as const satisfies SpritesheetMetadata;
 
@@ -54,7 +68,7 @@
 </script>
 
 {#await treeAtlas.spritesheet then spritesheet}
-	<InstancedSprite {billboarding} {spritesheet} playmode={'PAUSE'} castShadow count={1}>
+	<InstancedSprite {billboarding} {spritesheet} playmode="PAUSE" castShadow count={1}>
 		{#snippet children({ Instance }: { Instance: any })}
 			<Instance {position} {scale} {animationName} castShadow />
 		{/snippet}
