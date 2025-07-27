@@ -1,27 +1,22 @@
 <script lang="ts">
-	import { T } from '@threlte/core';
-	import {
-		InstancedSprite,
-		Instance,
-		buildSpritesheet,
-		type SpritesheetMetadata
-	} from '@threlte/extras';
+	import { InstancedSprite, buildSpritesheet, type SpritesheetMetadata } from '@threlte/extras';
 	import type { Vector2Tuple, Vector3Tuple } from 'three';
+	import type { Component } from 'svelte';
+	// TODO: better import path
+	import type { SpriteInstanceProps } from '../../../../node_modules/@threlte/extras/dist/components/InstancedSprite/types.d.ts';
 
 	let {
 		position = [0, 1.5, 0] as Vector3Tuple,
 		scale = [3, 3],
 		billboarding = true,
 		team_id,
-		type_id,
-		dir
+		type_id
 	}: {
 		position: Vector3Tuple;
 		scale: Vector2Tuple;
 		billboarding: boolean;
 		team_id: number;
 		type_id: number;
-		dir: string;
 	} = $props();
 
 	const meta = [
@@ -97,14 +92,9 @@
 </script>
 
 {#await sheet.spritesheet then spritesheet}
-	<InstancedSprite {billboarding} {spritesheet} playmode="FORWARD" count={1}>
-		{#snippet children({ Instance }: { Instance: any })}
-			<Instance
-				{position}
-				{scale}
-				castShadow
-				animationName={`team_${team_id}_type_${type_id}_walk`}
-			/>
+	<InstancedSprite {billboarding} {spritesheet} playmode="FORWARD" count={1} castShadow>
+		{#snippet children({ Instance }: { Instance: Component<SpriteInstanceProps> })}
+			<Instance id={0} {position} {scale} animationName={`team_${team_id}_type_${type_id}_walk`} />
 		{/snippet}
 	</InstancedSprite>
 {/await}

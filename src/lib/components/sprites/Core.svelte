@@ -1,12 +1,9 @@
 <script lang="ts">
-	import { T } from '@threlte/core';
-	import {
-		InstancedSprite,
-		Instance,
-		buildSpritesheet,
-		type SpritesheetMetadata
-	} from '@threlte/extras';
+	import { InstancedSprite, buildSpritesheet, type SpritesheetMetadata } from '@threlte/extras';
+	import type { Component } from 'svelte';
 	import type { Vector2Tuple, Vector3Tuple } from 'three';
+	// TODO: better import path
+	import type { SpriteInstanceProps } from '../../../../node_modules/@threlte/extras/dist/components/InstancedSprite/types.d.ts';
 
 	let {
 		position = [0, 1.5, 0] as Vector3Tuple,
@@ -41,12 +38,12 @@
 </script>
 
 {#await sheet.spritesheet then spritesheet}
-	<InstancedSprite {billboarding} {spritesheet} playmode="FORWARD" count={1}>
-		{#snippet children({ Instance }: { Instance: any })}
+	<InstancedSprite castShadow {billboarding} {spritesheet} playmode="FORWARD" count={1}>
+		{#snippet children({ Instance }: { Instance: Component<SpriteInstanceProps> })}
 			<Instance
+				id={0}
 				{position}
 				{scale}
-				castShadow
 				animationName={team_id === 1 ? 'core_idle_blue' : 'core_idle_red'}
 			/>
 		{/snippet}
