@@ -21,7 +21,7 @@
 		billboarding: boolean;
 		team_id: number;
 		type_id: number;
-		dir: String;
+		dir: string;
 	} = $props();
 
 	const meta = [
@@ -30,9 +30,7 @@
 			type: 'rowColumn',
 			width: 6,
 			height: 1,
-			animations: [
-				{ name: 'team_2_type_0_walk', frameRange: [0, 5] }
-			]
+			animations: [{ name: 'team_2_type_0_walk', frameRange: [0, 5] }]
 		},
 		{
 			url: '/textures/sprites/goblin/goblin_carry.png',
@@ -41,7 +39,7 @@
 			height: 1,
 			animations: [{ name: 'team_2_type_2_walk', frameRange: [0, 5] }]
 		},
-        {
+		{
 			url: '/textures/sprites/goblin/goblin_base.png',
 			type: 'rowColumn',
 			width: 6,
@@ -52,14 +50,12 @@
 				{ name: 'team_2_type_4_walk', frameRange: [0, 5] }
 			]
 		},
-        {
+		{
 			url: '/textures/sprites/skeleton/skeleton_warrior.png',
 			type: 'rowColumn',
 			width: 6,
 			height: 1,
-			animations: [
-				{ name: 'team_1_type_0_walk', frameRange: [0, 5] }
-			]
+			animations: [{ name: 'team_1_type_0_walk', frameRange: [0, 5] }]
 		},
 		{
 			url: '/textures/sprites/skeleton/skeleton_carry.png',
@@ -68,7 +64,7 @@
 			height: 1,
 			animations: [{ name: 'team_1_type_2_walk', frameRange: [0, 5] }]
 		},
-        {
+		{
 			url: '/textures/sprites/skeleton/skeleton_base.png',
 			type: 'rowColumn',
 			width: 6,
@@ -79,7 +75,7 @@
 				{ name: 'team_1_type_4_walk', frameRange: [0, 5] }
 			]
 		},
-        {
+		{
 			url: '/textures/sprites/missing_texture.png',
 			type: 'rowColumn',
 			width: 1,
@@ -101,9 +97,14 @@
 </script>
 
 {#await sheet.spritesheet then spritesheet}
-	<InstancedSprite {billboarding} {spritesheet} playmode={'FORWARD'} count={1}>
+	<InstancedSprite {billboarding} {spritesheet} playmode="FORWARD" count={1}>
 		{#snippet children({ Instance }: { Instance: any })}
-			<Instance {position} {scale} castShadow animationName={`team_${team_id}_type_${type_id}_walk`} />
+			<Instance
+				{position}
+				{scale}
+				castShadow
+				animationName={`team_${team_id}_type_${type_id}_walk`}
+			/>
 		{/snippet}
 	</InstancedSprite>
 {/await}

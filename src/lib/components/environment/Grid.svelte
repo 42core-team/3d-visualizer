@@ -22,7 +22,7 @@
 	let gridDepth = $derived(size[1]);
 </script>
 
-{#await texture then map}
+{#await $texture then map}
 	<InstancedMesh receiveShadow limit={size[0] * size[1]} range={size[0] * size[1]}>
 		<T.BoxGeometry args={[1, 1, 1]} />
 		<T.MeshStandardMaterial {map} />

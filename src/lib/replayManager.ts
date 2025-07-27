@@ -15,7 +15,7 @@ export interface TickAction {
 	type: string;
 	unit_id?: number;
 	targetX?: number;
-    targetY?: number;
+	targetY?: number;
 }
 
 export interface ReplayTick {

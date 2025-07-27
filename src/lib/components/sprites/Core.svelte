@@ -26,18 +26,14 @@
 			type: 'rowColumn',
 			width: 4,
 			height: 1,
-			animations: [
-				{ name: 'core_idle_blue', frameRange: [0, 3] }
-			]
+			animations: [{ name: 'core_idle_blue', frameRange: [0, 3] }]
 		},
 		{
 			url: '/textures/sprites/core/MainCharacter2.png',
 			type: 'rowColumn',
 			width: 4,
 			height: 1,
-			animations: [
-				{ name: 'core_idle_red', frameRange: [0, 3] }
-			]
+			animations: [{ name: 'core_idle_red', frameRange: [0, 3] }]
 		}
 	] as const satisfies SpritesheetMetadata;
 
@@ -45,14 +41,13 @@
 </script>
 
 {#await sheet.spritesheet then spritesheet}
-	<InstancedSprite {billboarding} {spritesheet} playmode={'FORWARD'} count={1}>
+	<InstancedSprite {billboarding} {spritesheet} playmode="FORWARD" count={1}>
 		{#snippet children({ Instance }: { Instance: any })}
-			<Instance 
+			<Instance
 				{position}
-				{scale} 
-				castShadow 
-				animationName={	team_id === 1 ? 'core_idle_blue' :
-												'core_idle_red'}
+				{scale}
+				castShadow
+				animationName={team_id === 1 ? 'core_idle_blue' : 'core_idle_red'}
 			/>
 		{/snippet}
 	</InstancedSprite>
