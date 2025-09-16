@@ -1,3 +1,5 @@
+> # THIS WAS ARCHIVED as development stopped. We can reattempt making a new 3d visualizer at a later point, for now we have the 2d visualizer in the monorepo in the visualizer folder instead.
+
 # New Core Game Visualizer written in SvelteKit + ThreeJS
 
 We are using Threlte to implement the new Core Game Visualizer.
